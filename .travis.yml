@@ -1,0 +1,59 @@
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode10.2
+    - os: linux
+      dist: xenial
+      
+compiler:
+  - clang
+  - gcc
+  - python
+
+addons:
+  homebrew:
+    packages:
+    - cmake
+    - conan
+    - nasm
+    - llvm@6
+
+before_cache:
+  - brew cleanup
+
+cache:
+  - directories:
+    - $HOME/Library/Caches/Homebrew
+
+jobs:
+  include:
+    - script:
+        - mkdir build_hello_world && cd build_hello_world
+        - conan install .. -pr clang-6.0-macos-x86_64
+        - source activate.sh
+        - cmake -Dfor_production=OFF ..
+        - cmake --build .
+        - gtimeout 7 boot hello > hello_log.txt || true
+        - set -x
+        - |
+          if grep -F "Running [ Hello world - OS included ]" hello_log.txt
+          then
+            echo "Hello World -  Success! :)"
+          else
+            echo "Failed :("
+            cat hello_log.txt
+            sleep 20
+            exit 1
+          fi
+      name: "clang-6.0-x86_64"
+
+install:
+  - conan config install https://github.com/includeos/conan_config.git
+  - conan --version
+  - clang --version
+  - pip3 install future
+  - pip3 install --upgrade psutil
+  - pip3 install --upgrade jsonschema
+
+after_script:
+  - source deactivate.sh
