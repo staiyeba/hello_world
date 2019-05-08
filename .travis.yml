@@ -24,9 +24,9 @@ jobs:
   include:
     - script:
         - mkdir build_hello_world && cd build_hello_world
-        - conan install ../hello_world -pr clang-6.0-macos-x86_64
+        - conan install .. -pr clang-6.0-macos-x86_64
         - source activate.sh
-        - cmake -Dfor_production=OFF ../hello_world
+        - cmake -Dfor_production=OFF ..
         - cmake --build .
         - gtimeout 7 boot hello > hello_log.txt || true
         - set -x
@@ -41,9 +41,6 @@ jobs:
             exit 1
           fi
       name: "clang-6.0-x86_64"
-
-before_install:
-  - git fetch --tags https://github.com/includeos/IncludeOS.git
 
 install:
   - conan config install https://github.com/includeos/conan_config.git
