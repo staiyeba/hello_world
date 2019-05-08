@@ -4,19 +4,25 @@ matrix:
       osx_image: xcode10.2
     - os: linux
       dist: xenial
-      
+
 compiler:
   - clang
   - gcc
   - python
 
-addons:
-  homebrew:
-    packages:
-    - cmake
-    - conan
-    - nasm
-    - llvm@6
+  addons:
+    homebrew:
+      packages:
+      - cmake
+      - conan
+      - nasm
+      - llvm@6
+    apt:
+      packages:
+        - cmake
+        - conan
+        - nasm
+        - clang-6.0
 
 before_cache:
   - brew cleanup
