@@ -10,19 +10,19 @@ compiler:
   - gcc
   - python
 
-  addons:
-    homebrew:
-      packages:
+addons:
+  homebrew:
+    packages:
       - cmake
       - conan
       - nasm
       - llvm@6
-    apt:
-      packages:
-        - cmake
-        - conan
-        - nasm
-        - clang-6.0
+  apt:
+    packages:
+      - cmake
+      - conan
+      - nasm
+      - clang-6.0
 
 before_cache:
   - brew cleanup
