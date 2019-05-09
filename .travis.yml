@@ -12,6 +12,7 @@ addons:
     - conan
     - nasm
     - llvm@6
+    - qemu
 
 before_cache:
   - brew cleanup
