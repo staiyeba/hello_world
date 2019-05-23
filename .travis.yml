@@ -29,14 +29,12 @@ jobs:
         - source activate.sh
         - cmake -DFOR_PRODUCTION=OFF ..
         - cmake --build .
-        - gtimeout 7 boot hello &> hello_log.txt || true
+        - gtimeout 10 boot hello 2>&1 | tee hello.log  || true
         - |
-          if grep -F "Running [ Hello world - OS included ]" hello_log.txt
+          if grep -F "Running [ Hello world - OS included ]" hello.log
           then
             echo "Hello World -  Success! :)"
           else
-            echo "Failed :("
-            cat -b hello_log.txt
             exit 1
           fi
       name: "clang-6.0-x86_64"
